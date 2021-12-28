@@ -16,8 +16,8 @@ for ip in range(df.shape[0]):
         df_ip.append(f'{ip_address}')
 print("Test Completed")
 
-now_time = datetime.now().strftime("%d%m%H%M%S")
+now_time = datetime.now().strftime("%d%m %H:%M:%S")
 df_out = pd.DataFrame (list(zip(df_ip, df_node, ping_stat)), columns=['IP Address', 'Router Name', 'Ping Status'])
 df_out.to_excel(f'Router_online_stat_{now_time}.xlsx', index=False)
 print(f"File Router_online_stat_{now_time}.xlsx created \n Find it to see output")
-print("End Time", datetime.now().strftime("%d/%m/%H:%M:%S"))
+print("End Time", datetime.now().strftime("%d/%m %H:%M:%S"))
