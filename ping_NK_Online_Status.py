@@ -1,23 +1,12 @@
-import os
-import pandas as pd
-import time
-from datetime import datetime
-#IP_list = ["2.2.2.2", "8.8.8.8", "172.20.0.1", "facebook.com", "twiter.com", "apple.com", "gmail.com"]
-
-#CSV file containing IP addresses
-IP_list = "ip_list.csv"
-#Parsed to pandas to read as CSV
-df = pd.read_csv(IP_list)
-
 ping_stat = []
 df_node = []
 df_ip = []
+print("Start Time", datetime.now().strftime("%d/%m/%H:%M:%S"))
 for ip in range(df.shape[0]):
-    ip_address = df["IP Address"][ip]
-    node_name = df["Node Name"][ip]
-    
-    ping = os.popen(f"ping {ip_address} -c 2", mode='r').read()
-    if "rtt" in ping:
+    ip_address = df['Site ID'][ip]
+    node_name = df['Site Name'][ip]
+    ping = os.popen(f'ping {ip_address} -n 2', mode='r').read()
+    if "Approximate round trip" in ping:
         ping_stat.append('up')
         df_node.append(f'{node_name}')
         df_ip.append(f'{ip_address}')
@@ -26,3 +15,9 @@ for ip in range(df.shape[0]):
         df_node.append(f'{node_name}')
         df_ip.append(f'{ip_address}')
 print("Test Completed")
+
+now_time = datetime.now().strftime("%d%m%H%M%S")
+df_out = pd.DataFrame (list(zip(df_ip, df_node, ping_stat)), columns=['IP Address', 'Router Name', 'Ping Status'])
+df_out.to_excel(f'Router_online_stat_{now_time}.xlsx', index=False)
+print(f"File Router_online_stat_{now_time}.xlsx created \n Find it to see output")
+print("End Time", datetime.now().strftime("%d/%m/%H:%M:%S"))
