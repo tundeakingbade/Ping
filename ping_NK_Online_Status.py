@@ -1,3 +1,9 @@
+import os
+import pandas as pd
+from datetime import datetime
+IP_list = input("Drag and drop Shelf Document from NSP: ")
+df = pd.read_csv(IP_list)
+
 ping_stat = []
 df_node = []
 df_ip = []
